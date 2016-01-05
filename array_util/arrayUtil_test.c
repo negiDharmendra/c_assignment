@@ -5,6 +5,7 @@
 #include "array_util.h"
 
 void test_create_array(){
+	printf("Hello" );
 	ArrayUtil array_1 =  create(sizeof(int), 2);
 
 	assert(sizeof(array_1.base)==8);
@@ -19,6 +20,52 @@ void test_are_equal(){
 	assert(are_equal( array_1, array_2)==1);
 	assert(are_equal( array_1, array_2)!=2);
 }
+
+void test_are_equal_for_integer(){
+	int length = 10;
+	int size = 4;
+	ArrayUtil array_1 =  create(size, length);
+	ArrayUtil array_2 =  create(size, length);
+	for (int i = 65; i < 65+length; ++i)
+	{
+		*((int *)(array_1.base)+i-65) = i;
+		*((int *)(array_2.base)+i-65) = i;
+	}
+
+	assert(are_equal( array_1, array_2)==1);
+	assert(are_equal( array_1, array_2)!=2);
+}
+
+
+void test_are_equal_for_character(void){
+	int length = 10;
+	int size = 1;
+	ArrayUtil array_1 =  create(size, length);
+	ArrayUtil array_2 =  create(size, length);
+	for (int i = 65; i < 65+length; ++i)
+	{
+		*((char *)(array_1.base)+i-65) = i;
+		*((char *)(array_2.base)+i-65) = i;
+	}
+	assert(are_equal( array_1, array_2)==2);
+	assert(are_equal( array_1, array_2)!=2);
+}
+
+void test_are_equal_for_double(){
+	int length = 10;
+	int size = 8;
+	ArrayUtil array_1 =  create(size, length);
+	ArrayUtil array_2 =  create(size, length);
+	for (int i = 65; i < 65+length; ++i)
+	{
+		*((double *)(array_1.base)+i-65) = i;
+		*((double *)(array_2.base)+i-65) = i;
+	}
+
+	assert(are_equal( array_1, array_2)==1);
+	assert(are_equal( array_1, array_2)!=2);
+}
+
 
 void test_array_with_defferent_type_size_are_not_equal(){
 	ArrayUtil array_1 =  create(sizeof(int), 2);
@@ -46,7 +93,7 @@ void test_array_with_defferent_element_are_not_equal(){
 		*((int *)(array_1.base)+i-65) = i;
 		*((int *)(array_2.base)+i-65) = i+1;
 	}
-	assert(are_equal( array_1, array_2)==1);
+	assert(are_equal( array_1, array_2)==0);
 }
 
 void test_resize(){
@@ -67,7 +114,7 @@ void test_find_index(){
 	for (int i = 65; i < 65+length; ++i)
 		*(( int *)(array_1.base)+i-65) = i;
 	int d  = 90;
-	assert(find_index(array_1,&d)==25);
+	assert(find_index(array_1,&d)==89);
 }
 
 
