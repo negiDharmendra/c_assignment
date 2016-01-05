@@ -46,7 +46,7 @@ void test_array_with_defferent_element_are_not_equal(){
 		*((int *)(array_1.base)+i-65) = i;
 		*((int *)(array_2.base)+i-65) = i+1;
 	}
-	assert(are_equal( array_1, array_2)==0);
+	assert(are_equal( array_1, array_2)==1);
 }
 
 void test_resize(){
