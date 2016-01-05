@@ -7,12 +7,13 @@
 
 
 int main(void) {
-	ArrayUtil array_1 = create(sizeof(int), 2);
-	ArrayUtil array_2 = create(sizeof(int), 3);
-	printf("array_1.base----- %d\n", array_1.typeSize);
-	printf("array_1.length----- %d\n", array_1.length);
-	printf("array_2.base----- %d\n", array_2.typeSize);
-	printf("array_2.length----- %d\n", array_2.length);
-	printf("%d\n", areEqual(array_1,array_2));
+	int length = 10;
+	ArrayUtil array_1 = create(sizeof(int), length);
+	ArrayUtil array_2 = create(sizeof(int), length);
+	int *a = array_1.base;
+	for (int i = 0; i < length; ++i)
+		a[i] = i;
+	print(array_1);
+	printf("%d\n", are_equal(array_1,array_2));
 	return 0;
 }
