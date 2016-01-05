@@ -1,6 +1,7 @@
 var fs = require('fs');
 var testfile = process.argv[2];
-var option = process.argv[3];
+// var dependency = process.argv[3];
+var option = process.argv[4];
 var child_process = require('child_process');
 
 function printUsage() {
@@ -24,28 +25,28 @@ function readFile(fileName) {
 };
 
 function extractTests(fileContent) {
-    var tests = fileContent.match(/test\w+/g);
+    var tests = fileContent.match(/(\btest_\w+)/g);
     return tests.map(function(test) {
         return test + "\(\);";
     });
 };
 
 function printFormattedErr(err) {
-    err = err.split(/function|file|line/);
-    var errMessage = [
-        err[0],
-        "Test Name : " + err[1].trim(),
-        "File Name : " + err[2].substr(3),
-        "Line No.  : " + err[3].match(/\d+/g).join()
-    ]
-    console.log(errMessage.join('\n'));
+    // err = err.split(/function|file|line/);
+    // var errMessage = [
+    //     err[0],
+    //     "Test Name : " + err[1].trim(),
+    //     "File Name : " + err[2].substr(3),
+    //     "Line No.  : " + err[3].match(/\d+/g).join()
+    // ]
+    console.log(err);
 }
 
 function printResult(test, allTests, summary) {
     return function(err, stdout, stderr) {
         printTestName(test);
         if (stdout) console.log(stdout);
-        if (err || stderr) summary.failed++, printFormattedErr(stderr);
+        if (stderr) summary.failed++, printFormattedErr(stderr);
         console.log('--------------');
         runAllTests(allTests, summary);
     }
@@ -79,7 +80,11 @@ function runAllTests(tests, summary) {
     var test = tests.shift();
     var mainFile = createFile(test);
     fs.writeFileSync('test_main.c', mainFile);
-    child_process.execSync('gcc test_main.c array_util.c -o arrayUtilTest');
+    try{
+        child_process.execSync('gcc -w test_main.c array_util.c -o arrayUtilTest');
+    }catch(e){
+        console.log(e.message)
+    }
     child_process.exec('./arrayUtilTest', printResult(test, tests, summary));
 };
 
@@ -92,8 +97,8 @@ function main() {
             totalTest: tests.length
         }
         console.log("loading tests from " + testfile + "\n--------------");
-        if (option)
-            listTestNames(tests);
+        // if (option)
+        //     listTestNames(tests);
         runAllTests(tests, summary);
     } else
         printUsage();

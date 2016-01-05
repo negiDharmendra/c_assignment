@@ -29,7 +29,35 @@ ArrayUtil resize(ArrayUtil array, int length ){
 }
 
 int find_index(ArrayUtil array,void *val){
-	for (int i = 0; i < array.length*array.typeSize; ++i)
-		if(*((unsigned char *)array.base+i)-*(unsigned char *)(val)==0) return (i+1)/array.typeSize;
+	for (int i = 0; i < array.length; ++i)
+		if(memcmp(array.base+(i*array.typeSize),val,array.typeSize)==0)return i;
 	return -1;
 }
+
+void dispose(ArrayUtil array){
+	free(array.base);
+}
+
+
+
+void *find_first(ArrayUtil array, MatchFunc *map, void *hint){
+	for (int i = 0; i < array.length; ++i){
+		int result = (*map)(hint,array.base+(i*array.typeSize));
+		if(result==1) {
+			return (array.base+(i*array.typeSize));
+		}
+	}
+	return NULL;
+};
+
+
+void *find_last(ArrayUtil array, MatchFunc *map, void *hint){
+	for (int i = array.length-1; i >=0; --i){
+		int result = (*map)(hint,array.base+(i*array.typeSize));
+		if(result==1) {
+			return (array.base+(i*array.typeSize));
+		}
+	}
+	return NULL;
+};
+
