@@ -20,18 +20,30 @@ int add_to_list(LinkedList *linked_list,void *val){
 		linked_list->tail->next = elemnt; 
 		linked_list->tail = elemnt;
 	}
-	linked_list->length++;
-	return linked_list->length;
+	return ++linked_list->length;
 }
 
 void *get_first_element(LinkedList list){
-	return list.head;
+	if(list.head!=NULL)
+		return list.head->val;
+	return NULL;
 }
 
 void *get_last_element(LinkedList list){
-	return list.tail;
+	if(list.tail!=NULL)
+		return list.tail->val;
+	return NULL;
 }
 
+
+
+void for_each(LinkedList linked_list, ElementProcessor traverse ){
+	Element *ptr = linked_list.head;
+	while(ptr!=NULL){
+		(*traverse)(ptr->val);
+		ptr = ptr->next;
+	}
+}
 
 
 

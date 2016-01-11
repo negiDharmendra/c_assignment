@@ -1,4 +1,5 @@
 
+
 typedef struct element {
 	void *val;
 	struct element *next;
@@ -16,4 +17,4 @@ LinkedList create_list(void);
 int add_to_list(LinkedList *,void *);
 void *get_first_element(LinkedList list);
 void *get_last_element(LinkedList list);
-void forEach(LinkedList, ElementProcessor);
+void for_each(LinkedList, ElementProcessor);
