@@ -94,3 +94,96 @@ void test_for_each_will_process_each_element_according_to_ElementProcessor(){
 	assert(*(int*)linked_list.tail->val == 2058);
 
 }
+
+void test_get_element_at_given_index(){
+	LinkedList linked_list = create_list();
+	int nums[10] = {23,24,26,27,12,35,78,667,5687,1029};
+	for (int i = 0; i < 10; ++i)
+		assert(i+1==add_to_list(&linked_list,&(nums[i])));
+
+	Element *element =  (Element * )get_element_at(linked_list, 2 );
+	assert(*(int*)element->val==26);
+	assert(element->index==2);
+}
+
+
+void test_get_element_return_NULL_in_the_absence_of_index(){
+	LinkedList linked_list = create_list();
+	int nums[10] = {23,24,26};
+	for (int i = 0; i < 3; ++i)
+		assert(i+1==add_to_list(&linked_list,&(nums[i])));
+	assert(get_element_at(linked_list, 5 )==NULL);
+}
+
+void test_index_of_return_index_of_given_element(){
+	LinkedList linked_list = create_list();
+	int nums[10] = {23,24,26,27,12,35,78,667,5687,1029};
+	for (int i = 0; i < 10; ++i)
+		assert(i+1==add_to_list(&linked_list,&(nums[i])));
+
+	int index_1 =  indexOf(linked_list, linked_list.head->next->next );
+	assert(index_1==2);
+	int index_2 =  indexOf(linked_list, get_element_at(linked_list, 9 ));
+	assert(index_2==9);
+}
+
+
+void test_delete_element_at_given_index(){
+	LinkedList linked_list = create_list();
+	int nums[10] = {23,24,26,27,12,35,78,667,5687,1029};
+	for (int i = 0; i < 10; ++i)
+		assert(i+1==add_to_list(&linked_list,&(nums[i])));
+	Element *element =  (Element * )delete_element_at(&linked_list, 5);
+	assert(*(int*)element->val==35);
+	assert(element->index==5);
+	assert(linked_list.tail->index==8);
+	assert(linked_list.length==9);
+}
+
+void test_delete_element_at_zeroTh_index(){
+	LinkedList linked_list = create_list();
+	int nums[10] = {23,24,26,27,12,35,78,667,5687,1029};
+	for (int i = 0; i < 10; ++i)
+		assert(i+1==add_to_list(&linked_list,&(nums[i])));
+	Element *element =  (Element * )delete_element_at(&linked_list, 0);
+
+	assert(*(int*)element->val==23);
+	assert(element->index==0);
+	assert(*(int*)linked_list.head->val==24);
+	assert(linked_list.head->index==0);
+	assert(linked_list.tail->index==8);
+	assert(linked_list.length==9);
+}
+
+void test_delete_element_at_last_index(){
+	LinkedList linked_list = create_list();
+	int nums[10] = {23,24,26,27,12,35,78,667,5687,1029};
+	for (int i = 0; i < 10; ++i)
+		assert(i+1==add_to_list(&linked_list,&(nums[i])));
+	Element *element =  (Element * )delete_element_at(&linked_list, 9);
+
+	assert(*(int*)element->val==1029);
+	assert(element->index==9);
+	assert(*(int*)linked_list.tail->val==5687);
+	assert(*(int*)linked_list.head->val==23);
+	assert(linked_list.head->index==0);
+	assert(linked_list.tail->index==8);
+	assert(linked_list.length==9);
+}
+
+void test_delete_element_return_NULL_in_the_absence_of_index_in_list(){
+	LinkedList linked_list = create_list();
+	int nums[10] = {23,24,26,27,12,35,78,667,5687,1029};
+	for (int i = 0; i < 10; ++i)
+		assert(i+1==add_to_list(&linked_list,&(nums[i])));
+
+	assert(delete_element_at(&linked_list, 10)==NULL);
+	assert(*(int*)linked_list.tail->val==1029);
+	assert(*(int*)linked_list.head->val==23);
+	assert(linked_list.head->index==0);
+	assert(linked_list.tail->index==9);
+	assert(linked_list.length==10);
+}
+
+
+
