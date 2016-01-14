@@ -14,6 +14,7 @@ typedef	struct linked_list {
 typedef void (*ElementProcessor)(void *);
 typedef int (*MatchFunc)(void *,void *);
 typedef void (*ConvertFunc)(void *,void *,void *);
+typedef	void *(*Reducer)(void*,void*,void*);
 
 LinkedList create_list(void);
 int add_to_list(LinkedList *,void *);
@@ -31,4 +32,6 @@ LinkedList reverse(LinkedList);
 
 
 LinkedList map(LinkedList, ConvertFunc, void * );
+
+void *reduce(LinkedList, Reducer, void *hint, void *initialValue);
 

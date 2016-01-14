@@ -286,9 +286,9 @@ void test_reverse() {
 
 }
 
-void multiply_by_num(void *hint, void *source_val,void *dest_val) {
-	TYPEINT(dest_val) = TYPEINT(source_val)*TYPEINT(hint);
-};  
+void multiply_by_num(void *hint, void *source_val, void *dest_val) {
+	TYPEINT(dest_val) = TYPEINT(source_val) * TYPEINT(hint);
+};
 
 
 void test_map() {
@@ -298,7 +298,7 @@ void test_map() {
 		assert(i + 1 == add_to_list(&linked_list, &(nums[i])));
 	int hint = 2;
 	ConvertFunc converter =  multiply_by_num;
-	LinkedList newList = map(linked_list,converter,&hint);
+	LinkedList newList = map(linked_list, converter, &hint);
 
 	assert(newList.length == 10);
 	assert(newList.head->index == 0);
@@ -317,7 +317,7 @@ void test_map_does_not_change_original_linked_list() {
 		assert(i + 1 == add_to_list(&linked_list, &(nums[i])));
 	int hint = 2;
 	ConvertFunc converter =  multiply_by_num;
-	LinkedList newList = map(linked_list,converter,&hint);
+	LinkedList newList = map(linked_list, converter, &hint);
 
 	assert(linked_list.length == 10);
 	assert(linked_list.head->index == 0);
@@ -336,22 +336,22 @@ void test_map_does_not_change_original_linked_list() {
 	assert(TYPEINT(newList.tail->val) == 2058);
 }
 
-void increment_char_by_one_position(void *hint, void *source_val,void *dest_val) {
-	TYPEINT(dest_val) = TYPEINT(source_val)+TYPEINT(hint);
-};  
+void increment_char_by_one_position(void *hint, void *source_val, void *dest_val) {
+	TYPEINT(dest_val) = TYPEINT(source_val) + TYPEINT(hint);
+};
 
 
 void test_map_is_able_to_oprate_on_Char() {
 	LinkedList linked_list = create_list();
-	char nums[10] = {'A','B','C','D','E','F','G','H','I','J'};
+	char nums[10] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
 	for (int i = 0; i < 10; ++i)
 		assert(i + 1 == add_to_list(&linked_list, &(nums[i])));
 
 	int hint = 1;
 	ConvertFunc converter =  increment_char_by_one_position;
-	
-	LinkedList newList = map(linked_list,converter,&hint);
-	
+
+	LinkedList newList = map(linked_list, converter, &hint);
+
 	assert(linked_list.length == 10);
 	assert(linked_list.head->index == 0);
 	assert(linked_list.tail->index == 9);
@@ -359,14 +359,44 @@ void test_map_is_able_to_oprate_on_Char() {
 	assert(TYPECHAR(linked_list.head->next->val) == 'B');
 	assert(TYPECHAR(linked_list.head->next->next->val) == 'C');
 	assert(TYPECHAR(linked_list.tail->val) == 'J');
-	
-	assert(newList.length == 10);	
+
+	assert(newList.length == 10);
 	assert(newList.head->index == 0);
 	assert(newList.tail->index == 9);
 	assert(TYPECHAR(newList.head->val) == 'B');
 	assert(TYPECHAR(newList.head->next->val) == 'C');
 	assert(TYPECHAR(newList.head->next->next->val) == 'D');
 	assert(TYPECHAR(newList.tail->val) == 'K');
+}
+
+
+void *add_element_of_list(void* hint, void* previousItem, void* item){
+	TYPEINT(previousItem) = TYPEINT(previousItem)+TYPEINT(item);
+	return previousItem;	
+}
+
+void test_reduce() {
+	LinkedList linked_list = create_list();
+	int nums[10] = {23, 24, 26, 27, 12, 35, 78, 667, 5687, 1029};
+	for (int i = 0; i < 10; ++i)
+		assert(i + 1 == add_to_list(&linked_list, &(nums[i])));
+	Reducer reducer =  add_element_of_list;
+
+	int initial_val = 0;
+
+	int result = TYPEINT(reduce(linked_list, reducer, NULL,&initial_val));
+
+	assert(linked_list.length == 10);
+	assert(linked_list.head->index == 0);
+	assert(linked_list.tail->index == 9);
+	assert(TYPEINT(linked_list.head->val) == 23);
+	assert(TYPEINT(linked_list.head->next->val) == 24);
+	assert(TYPEINT(linked_list.head->next->next->val) == 26);
+	assert(TYPEINT(linked_list.tail->val) == 1029);
+
+	assert(result == 7608);
+
+
 }
 
 

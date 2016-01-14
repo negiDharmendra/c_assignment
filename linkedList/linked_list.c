@@ -186,7 +186,14 @@ LinkedList map(LinkedList list, ConvertFunc mapper, void *hint ) {
 	return newList;
 };
 
-
+void *reduce(LinkedList list, Reducer reducer, void *hint, void *initialValue){
+	Element *ptr = list.head;
+	while(ptr!=NULL){
+		initialValue = (*reducer)(hint,initialValue,ptr->val);
+		ptr = ptr->next;
+	}
+	return initialValue;
+}
 
 
 
