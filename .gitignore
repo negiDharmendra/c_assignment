@@ -1,2 +1,5 @@
 DS_Store/
 array_util/runTestForC.js
+linkedList/node_modules/
+linkedList/package.json
+linkedList/runTestForC.js

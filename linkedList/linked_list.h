@@ -1,5 +1,4 @@
 
-
 typedef struct element {
 	void *val;
 	int index;
@@ -13,6 +12,8 @@ typedef	struct linked_list {
 } LinkedList;
 
 typedef void (*ElementProcessor)(void *);
+typedef int (*MatchFunc)(void *,void *);
+typedef void (*ConvertFunc)(void *,void *,void *);
 
 LinkedList create_list(void);
 int add_to_list(LinkedList *,void *);
@@ -22,3 +23,12 @@ void for_each(LinkedList, ElementProcessor);
 void * get_element_at(LinkedList, int );
 int indexOf(LinkedList, void *);
 void * delete_element_at(LinkedList *, int);
+int asArray(LinkedList, void **, int maxElements);
+
+LinkedList  filter(LinkedList, MatchFunc, void * );
+
+LinkedList reverse(LinkedList);
+
+
+LinkedList map(LinkedList, ConvertFunc, void * );
+
